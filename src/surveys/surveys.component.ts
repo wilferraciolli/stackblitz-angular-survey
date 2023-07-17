@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyModule } from 'survey-angular-ui';
 import { Model } from 'survey-core';
-import { surveyJson } from './constants';
+import { surveyJson, surveyJsonWithPages } from './constants';
 
 @Component({
   selector: 'app-surveys',
@@ -17,7 +17,14 @@ export class SurveysComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    const survey = new Model(surveyJson);
+    // const survey = new Model(surveyJson);
+    const survey = new Model(surveyJsonWithPages);
     this.surveyModel = survey;
+    survey.onComplete.add(this.alertResults);
+  }
+
+  alertResults (sender: any) {
+    const results = JSON.stringify(sender.data);
+    alert(results);
   }
 }
